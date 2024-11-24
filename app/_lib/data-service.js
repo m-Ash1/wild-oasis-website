@@ -5,6 +5,19 @@ import { supabase } from "./supabase";
 /////////////
 // GET
 
+export async function getDevelopers() {
+  let { data: profiles, error } = await supabase
+    .from("profiles")
+    .select("*")
+    .order("id", { ascending: true });
+
+  if (error) {
+    console.error(error);
+    throw new Error("Developers could not be loaded");
+  }
+  return profiles;
+}
+
 export async function getCabin(id) {
   const { data, error } = await supabase
     .from("cabins")
@@ -38,7 +51,11 @@ export async function getCabinPrice(id) {
 }
 
 export const getCabins = async function () {
-  const { data, error } = await supabase.from("cabins").select("*");
+  const { data, error } = await supabase
+    .from("cabins")
+    .select("id, name, image, maxCapacity, regularPrice, discount, description")
+    .order("id", { ascending: true });
+
   if (error) {
     console.error(error);
     throw new Error("Cabins could not be loaded");
