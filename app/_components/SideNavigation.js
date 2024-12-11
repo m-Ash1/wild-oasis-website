@@ -7,6 +7,7 @@ import {
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import SignOutButton from "../../starter/components/SignOutButton";
+import { signOutAction } from "../_lib/actions";
 
 const navLinks = [
   {
@@ -46,9 +47,9 @@ function SideNavigation() {
           </li>
         ))}
 
-        <li className="mt-auto">
+        <form action={signOutAction} className="mt-auto">
           <SignOutButton />
-        </li>
+        </form>
       </ul>
     </nav>
   );

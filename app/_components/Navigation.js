@@ -1,6 +1,5 @@
-"use client";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { auth } from "../_lib/auth";
+import NavigationLink from "./NavigationLink";
 const navLinks = [
   {
     name: "Cabins",
@@ -19,24 +18,13 @@ const navLinks = [
     href: "/account",
   },
 ];
-export default function Navigation() {
-  const pathname = usePathname();
+export default async function Navigation() {
+  const session = await auth();
   return (
     <nav className="z-10 text-xl">
       <ul className="flex gap-8 md:gap-16 items-center">
-        {navLinks.map((link) => {
-          return (
-            <li key={link.href}>
-              <Link
-                href={link.href}
-                className={`hover:text-accent-400 transition-colors ${
-                  pathname.includes(link.href) ? "text-accent-400" : ""
-                }`}
-              >
-                {link.name}
-              </Link>
-            </li>
-          );
+        {navLinks.map((link, i) => {
+          return <NavigationLink key={i} link={link} session={session} />;
         })}
       </ul>
     </nav>
