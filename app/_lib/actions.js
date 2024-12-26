@@ -43,14 +43,15 @@ export async function deleteReservationAction(bookingId) {
 export async function updateBookingAction(formData) {
   const session = await auth();
   if (!session) throw new Error("User not authenticated");
-  const bookingId = formData.get("bookingId");
   const numGuests = formData.get("numGuests");
-  const observations = formData.get("observations");
+  const bookingId = formData.get("bookingId");
+  const observations = formData.get("observations").slice(0, 500);
   const updatedBooking = {
     numGuests: Number(numGuests),
     observations,
   };
   await updateBooking(bookingId, updatedBooking);
   revalidatePath("/account/reservations");
+  revalidatePath(`/account/reservations/edit/${bookingId}`);
   redirect("/account/reservations");
 }

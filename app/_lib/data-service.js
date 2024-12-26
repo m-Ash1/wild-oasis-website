@@ -211,11 +211,11 @@ export async function updateGuest(id, updatedFields) {
   return data;
 }
 
-export async function updateBooking(id, updatedFields) {
+export async function updateBooking(bookingId, updatedBooking) {
   const { data, error } = await supabase
     .from("bookings")
-    .update(updatedFields)
-    .eq("id", id)
+    .update(updatedBooking)
+    .eq("id", bookingId)
     .select()
     .single();
 
