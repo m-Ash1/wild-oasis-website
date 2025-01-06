@@ -6,8 +6,8 @@ import {
 } from "@heroicons/react/24/solid";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import SignOutButton from "../../starter/components/SignOutButton";
 import { signOutAction } from "../_lib/actions";
+import SignOutButton from "./SignOutButton";
 
 const navLinks = [
   {
