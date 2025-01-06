@@ -7,7 +7,7 @@ import { useReservation } from "./ReservationContext";
 import { SubmitButton } from "./SubmitButton";
 
 function ReservationForm({ cabin, session, settings, bookedDates }) {
-  const { user } = session;
+  const { user } = session ? session : { user: {} };
   const { maxCapacity, regularPrice, discount } = cabin;
   const { range, resetRange } = useReservation();
   const startDate = range?.from;
