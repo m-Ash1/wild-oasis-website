@@ -8,14 +8,13 @@ import {
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import { TrashIcon } from "@heroicons/react/24/solid";
 import { useState, useTransition } from "react";
-import { deleteReservationAction } from "../_lib/actions";
 import SpinnerMini from "./SpinnerMini";
 
-function DeleteReservation({ bookingId }) {
+function DeleteReservation({ bookingId, onDelete }) {
   const [isPending, startTransition] = useTransition();
   const [open, setOpen] = useState(false);
   function handleTransition() {
-    startTransition(() => deleteReservationAction(bookingId));
+    startTransition(() => onDelete(bookingId));
   }
 
   return (

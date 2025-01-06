@@ -2,7 +2,12 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { auth, signIn, signOut } from "./auth";
-import { deleteBooking, updateBooking, updateGuest } from "./data-service";
+import {
+  createBooking,
+  deleteBooking,
+  updateBooking,
+  updateGuest,
+} from "./data-service";
 
 export async function signInAction() {
   await signIn("google", {
@@ -33,6 +38,8 @@ export async function updateProfileAction(formData) {
 }
 
 export async function deleteReservationAction(bookingId) {
+  // artificial delay
+  // await new Promise((resolve) => setTimeout(resolve, 2000));
   const session = await auth();
   if (!session) throw new Error("User not authenticated");
 
@@ -54,4 +61,25 @@ export async function updateBookingAction(formData) {
   revalidatePath("/account/reservations");
   revalidatePath(`/account/reservations/edit/${bookingId}`);
   redirect("/account/reservations");
+}
+
+export async function createBookingAction(bookingData, formData) {
+  const session = await auth();
+  if (!session) throw new Error("User not authenticated");
+
+  const newBooking = {
+    ...bookingData,
+    guestId: session.user.guestId,
+    numGuests: Number(formData.get("numGuests")),
+    observations: formData.get("observations").slice(0, 1000),
+    extrasPrice: 0,
+    totalPrice: bookingData.cabinPrice,
+    status: "unconfirmed",
+    isPaid: false,
+    hasBreakfast: false,
+  };
+
+  await createBooking(newBooking);
+  revalidatePath(`/cabins/${newBooking.cabinId}`);
+  redirect("/cabins/thankyou");
 }

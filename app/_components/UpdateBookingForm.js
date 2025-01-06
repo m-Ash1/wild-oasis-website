@@ -10,6 +10,7 @@ function UpdateBookingForm({ booking, maxCapacity }) {
       className="bg-primary-900 py-8 px-12 text-lg flex gap-6 flex-col"
     >
       {/* 3shan ab3t el bookingID ll action since eny m2drsh a2ol action={editBookingAction(bookingID)} */}
+
       <input type="hidden" name="bookingId" defaultValue={booking.id} />
       <div className="space-y-2">
         <label htmlFor="numGuests">How many guests?</label>
@@ -56,7 +57,7 @@ function Button() {
       disabled={pending}
       className="bg-accent-500 px-8 py-4 text-primary-800 font-semibold hover:bg-accent-600 transition-all disabled:cursor-not-allowed disabled:bg-gray-500 disabled:text-gray-300"
     >
-      {pending ? <SpinnerMini /> : "Update reservation"}
+      {pending ? <SpinnerMini /> : "Update"}
     </button>
   );
 }
